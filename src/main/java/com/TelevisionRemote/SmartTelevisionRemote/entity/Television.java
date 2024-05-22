@@ -1,7 +1,5 @@
 package com.TelevisionRemote.SmartTelevisionRemote.entity;
 
-import com.TelevisionRemote.SmartTelevisionRemote.enums.TelevisionType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -17,20 +15,22 @@ public class Television {
 
     private String televisionName;
     private String ipAddress;
+    private String televisionType;
 
-    @Enumerated(EnumType.STRING)
-    private TelevisionType televisionType;
+    @OneToMany(mappedBy = "television", cascade = CascadeType.REMOVE)
+    private List<Apps> apps;
 
     // No-args constructor
     public Television() {
     }
 
     // Constructor
-    public Television(String televisionName, String ipAddress, TelevisionType televisionType) {
+    public Television(String televisionName, String ipAddress, String televisionType) {
         this.televisionName = televisionName;
         this.ipAddress = ipAddress;
         this.televisionType = televisionType;
     }
+
 
     // Getters and Setters
     public Long getId() {
@@ -57,12 +57,20 @@ public class Television {
         this.ipAddress = ipAddress;
     }
 
-    public TelevisionType getTelevisionType() {
+    public String getTelevisionType() {
         return televisionType;
     }
 
-    public void setTelevisionType(TelevisionType televisionType) {
+    public void setTelevisionType(String televisionType) {
         this.televisionType = televisionType;
+    }
+
+    public List<Apps> getApps() {
+        return apps;
+    }
+
+    public void setApps(List<Apps> apps) {
+        this.apps = apps;
     }
 
     @Override
@@ -71,6 +79,7 @@ public class Television {
                 "id=" + id +
                 ", televisionName='" + televisionName + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
+                ", apps=" + apps +
                 ", televisionType=" + televisionType +
                 '}';
     }

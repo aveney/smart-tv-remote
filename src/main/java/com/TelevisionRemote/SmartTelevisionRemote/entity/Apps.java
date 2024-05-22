@@ -1,12 +1,13 @@
-package com.TelevisionRemote.SmartTelevisionRemote.component;
+package com.TelevisionRemote.SmartTelevisionRemote.entity;
 
+import com.TelevisionRemote.SmartTelevisionRemote.entity.App;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import jakarta.persistence.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -25,19 +26,23 @@ public class Apps {
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<App> app;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Television television;
 
     public Apps() {
     }
 
     public Apps(List<App> app) {
         this.app = app;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<App> getApp() {

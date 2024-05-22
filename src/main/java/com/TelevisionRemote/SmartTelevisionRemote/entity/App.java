@@ -1,4 +1,4 @@
-package com.TelevisionRemote.SmartTelevisionRemote.component;
+package com.TelevisionRemote.SmartTelevisionRemote.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;

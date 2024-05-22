@@ -1,21 +1,18 @@
 package com.TelevisionRemote.SmartTelevisionRemote.service;
 
+import com.TelevisionRemote.SmartTelevisionRemote.constants.TelevisionConstants;
 import com.TelevisionRemote.SmartTelevisionRemote.entity.Television;
 import com.TelevisionRemote.SmartTelevisionRemote.exceptions.televisionExceptions.TelevisionIpExistsException;
 import com.TelevisionRemote.SmartTelevisionRemote.exceptions.televisionExceptions.TelevisionNameExistsException;
 import com.TelevisionRemote.SmartTelevisionRemote.exceptions.televisionExceptions.TelevisionNotFoundException;
-import com.TelevisionRemote.SmartTelevisionRemote.exceptions.userExceptions.UserNotExistsException;
 import com.TelevisionRemote.SmartTelevisionRemote.repository.TelevisionRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -38,10 +35,21 @@ public class TelevisionService {
         } else if (!televisionRepository.findByIpAddress(newTelevision.getIpAddress()).isEmpty()) {
             throw new TelevisionIpExistsException();
         }
+        setType(newTelevision);
 
         // Update the television repository
         televisionRepository.save(newTelevision);
         return ResponseEntity.ok().body(newTelevision);
+    }
+
+    // Evaluate given television type and set it
+    public void setType(Television newTelevision) {
+        if (newTelevision.getTelevisionType().equalsIgnoreCase("roku")) {
+            newTelevision.setTelevisionType(TelevisionConstants.ROKU_TV);
+        } else if (newTelevision.getTelevisionType().equalsIgnoreCase("android") ||
+                newTelevision.getTelevisionType().equalsIgnoreCase("google")) {
+            newTelevision.setTelevisionType(TelevisionConstants.ANDROID_TV);
+        }
     }
 
     // Remove a television
