@@ -5,14 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @Entity
 @XmlRootElement(name = "apps")
+@Table(name = "apps")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Apps {
@@ -27,6 +28,7 @@ public class Apps {
     private List<App> app;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "television_id")
     @JsonIgnore
     private Television television;
 
@@ -51,6 +53,14 @@ public class Apps {
 
     public void setApp(List<App> app) {
         this.app = app;
+    }
+
+    public Television getTelevision() {
+        return television;
+    }
+
+    public void setTelevision(Television television) {
+        this.television = television;
     }
 
     @Override

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,21 +13,22 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "app")
 public class App {
 
     @Id
     @XmlAttribute(name = "id")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Apps apps;
-
     @XmlAttribute(name = "type")
     private String type;
 
     @XmlAttribute(name = "version")
     private String version;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Apps apps;
 
     public App() {
     }
@@ -59,6 +61,14 @@ public class App {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Apps getApps() {
+        return apps;
+    }
+
+    public void setApps(Apps apps) {
+        this.apps = apps;
     }
 
     @Override
