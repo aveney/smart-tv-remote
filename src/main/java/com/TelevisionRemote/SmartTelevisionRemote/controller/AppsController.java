@@ -67,7 +67,7 @@ public class AppsController {
     }
 
     // Get apps list for tv
-    @PostMapping(path = "/get-apps/{name}")
+    @GetMapping(path = "/get-apps/{name}")
     public ResponseEntity<Apps> getApps(@PathVariable String name) {
         return appsService.getApps(name);
     }
